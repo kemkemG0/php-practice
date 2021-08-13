@@ -1,34 +1,26 @@
-<div>
-    <!-- パラメータはURLに ?username=hoge 等々 -->
-    GET:
-    <form action="get.php" method="GET">
-        <input type="text" name="username">
-        <input type="password" name="pwd" id="">
-        <input type="submit" value='push here'>
-    </form>
-</div>
-<div>
-    <!-- パラメータはボディ部分に -->
-    POST:
-    <form action="post.php" method="POST">
-        <input type="text" name="username">
-        <input type="password" name="pwd" id="">
-        <input type="submit" value='push here'>
-    </form>
-</div>
+<?php
+//ここはあくまでもサーバ。
+//サーバでクッキーをセットして、返してあげてる
 
-<div>
-    <!-- 配列 -->
-    配列の送信:
-    <form action="recive.php" method="POST">
-        <input type="text" name="members[]">
-        <input type="text" name="members[]">
-        <input type="text" name="account[id]">
-        <input type="text" name="account[pwd]">
-        <input type="submit" value='push here'>
-    </form>
-</div>
+//設定するときはかならずこれ
+setcookie(
+    'VISIT_COUNT',
+    1,
+    [ //第３引数でクッキーの設定ができる
 
+        //有効期限の設定
+        'expires' => time() + 60 * 60 * 24,
+        //このパスを包含するところ全てにこのCookieが渡る
+        'path' => '/'
+    ]
+);
 
-<!-- URLは最大2000文字だからブログ投稿とかはPOST
-GETだと同じページを共有できる -->
+//スーパーグローバルの$_COOKIEに直接は変更できない
+var_dump($_COOKIE['VISIT_COUNT']);
+
+// ---------------------------SESSION-------------------------------
+
+session_start();
+$_SESSION['VISIT_COUNT'] = 1;
+echo $_SESSION['VISIT_COUNT'];
+//これらは　クッキーのPHPSESSIDというところにセッションIDが保持される
