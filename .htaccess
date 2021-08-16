@@ -1,0 +1,10 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/myapp
+RewriteRule .? /myapp/ [R,L]
+
+# 以下は、myapp/app以下にアクセスがあり、
+# それが存在しないときすべてindex.phpに飛ばすもの
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (app) /myapp/app/index.php
