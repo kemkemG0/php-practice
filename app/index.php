@@ -1,11 +1,25 @@
+<?php
+require_once 'config.php';
+require_once SOURCE_BASE . 'partials/header.php';
 
-    <?php
-    require_once 'config.php';
+$rpath = str_replace(BASE_CONTEXT_PATH, '', $_SERVER['REQUEST_URI']);
 
-    require_once SOURCE_BASE . 'partials/header.php';
+route($rpath);
 
-    require_once SOURCE_BASE . 'controllers/register.php';
+function route($rpath)
+{
+    if ($rpath === '') {
+        $rpath = 'home';
+    }
 
-    require_once SOURCE_BASE . 'partials/footer.php';
+    $targetFile = SOURCE_BASE . "controllers/{$rpath}.php";
 
-    ?>
+    if (!file_exists($targetFile)) {
+        require_once SOURCE_BASE . "views/404.php";
+        return;
+    }
+    require_once $targetFile;
+}
+
+
+require_once SOURCE_BASE . 'partials/footer.php';
